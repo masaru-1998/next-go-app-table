@@ -1,0 +1,41 @@
+version: '3' # composeファイルのバージョン
+services:
+  app:
+    container_name: next-app
+    build:
+      context: infra/app
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front:/app
+    environment:
+     - WATCHPACK_POLLING=true
+    command: sh -c "yarn dev"
+
+  web: # サービス名
+    container_name: go-container
+    build: # ビルドに使うDockerファイルのパス
+      context: .
+      dockerfile: ./infra/web/Dockerfile
+    ports:
+      - 8080:8080
+    volumes: # マウントディレクトリ
+      - ./server:/go/src/github.com/server
+    tty: true # コンテナの永続化
+    env_file: # .envファイル
+      - ./infra/web/.go_env
+    environment:
+      - TZ=Asia/Tokyo
+  db:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+volumes:
+  db-store:
