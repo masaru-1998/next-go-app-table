@@ -3,10 +3,9 @@ import React from 'react';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
 import styles from './styles/SideNavbar.module.css'
-import styled from '@emotion/styled';
+import CustomLink from './CustomLink';
 
 export const SideNavbar = () => {
     const [value, setValue] = React.useState('');
@@ -24,16 +23,28 @@ export const SideNavbar = () => {
                 >Back Offiece</Link>
             </h1>
             <BottomNavigation
-                sx={{ flexDirection: 'column', justifyContent: 'center'}}
+                sx={{flexDirection: 'column', justifyContent: 'center'}}
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}
             >
-                <BottomNavigationAction label="報告" classes={{ root: styles.sideNavbarButtom }} />
-                <BottomNavigationAction label="スケジュール作成" classes={{ root: styles.sideNavbarButtom }} />
-                <BottomNavigationAction label="タスク管理" classes={{ root: styles.sideNavbarButtom }} />
+                <CustomLink
+                    to="/report"
+                    label="報告"
+                    classes={{ root: styles.sideNavbarButtom }}
+                />
+                <CustomLink
+                    to="/schedule"
+                    label="スケジュール作成"
+                    classes={{ root: styles.sideNavbarButtom }}
+                />
+                <CustomLink
+                    to="/manage-task"
+                    label="タスク管理"
+                    classes={{ root: styles.sideNavbarButtom }}
+                />
             </BottomNavigation>
         </Box>
     );
