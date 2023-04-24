@@ -16,7 +16,7 @@ const schema = yup.object().shape({
     password: yup.string().required('パスワードを入力してください')
 })
 
-export default function Signup() {
+export default function Signup({ item }: {item: string}) {
     const [ passState, setPassState ] = useState<boolean>(false)
     const { register, handleSubmit, formState: { errors } } = useForm<UserInfo>({
         resolver: yupResolver(schema)
@@ -54,6 +54,7 @@ export default function Signup() {
                 <button>
                     送信
                 </button>
+                <p>{ item }</p>
                 <>
                     { errors.name &&
                         errors.name.message
